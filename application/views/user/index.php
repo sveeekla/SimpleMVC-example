@@ -5,8 +5,10 @@ $User = Config::getObject('core.user.class');
 ?>
 <?php include('includes/admin-users-nav.php'); ?>
 
+<div>Новых за последний час: <?=$lastHourCount?></div>
+
 <h2>Список пользователей</h2> 
-    
+
 <?php if (!empty($users)): ?>
 <table class="table">
     <thead>

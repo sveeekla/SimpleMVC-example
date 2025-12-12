@@ -29,10 +29,17 @@ class AdminusersController extends \ItForFree\SimpleMVC\MVC\Controller
             $this->view->addVar('viewAdminusers', $viewAdminusers);
             $this->view->render('user/view-item.php');
         } else { // выводим полный список
-            
+            $sql = "SELECT COUNT(*) as count FROM users WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
+            $st = $Adminusers->pdo->query($sql);
+            $lastHourCount = $st->fetch()['count'] ?? 0;
+
             $users = $Adminusers->getList()['results'];
             $this->view->addVar('users', $users);
+
+            $this->view->addVar('lastHourCount', $lastHourCount);
+            
             $this->view->render('user/index.php');
+
         }
     }
 
