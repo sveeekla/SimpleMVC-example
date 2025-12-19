@@ -1,4 +1,3 @@
-
 <?php 
 use ItForFree\SimpleMVC\Config;
 use ItForFree\SimpleMVC\Router\WebRouter;
@@ -33,9 +32,13 @@ $User = Config::getObject('core.user.class');
         
         <?php  if ($User->isAllowed("admin/adminusers/index")): ?>
         <li class="nav-item ">
-            <a class="nav-link" href="<?= WebRouter::link("admin/notes/index") ?>"> Заметки </a>
+            <a class="nav-link" href="<?= WebRouter::link("admin/articles/index") ?>"> Статьи </a>
         </li>
         <?php endif; ?>
+
+        <li class="nav-item ">
+            <a class="nav-link" href="<?= WebRouter::link('category/list') ?>">Категории</a>
+        </li>
         
         <?php  if ($User->isAllowed("login/logout")): ?>
         <li class="nav-item ">
@@ -45,4 +48,3 @@ $User = Config::getObject('core.user.class');
     </ul>
    </div>
 </nav>
-

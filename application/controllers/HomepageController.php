@@ -22,7 +22,37 @@ class HomepageController extends \ItForFree\SimpleMVC\MVC\Controller
      */
     public function indexAction()
     {
-        $this->view->addVar('homepageTitle', $this->homepageTitle); // передаём переменную по view
+        $Article = new \application\models\Article();
+        $articlesData = $Article->getListWithCategories();
+        $articles = $articlesData['results'];
+        
+        // Загружаем информацию об авторах для каждой статьи
+        foreach ($articles as &$article) {
+            $articleObj = new \application\models\Article();
+            $authors = $articleObj->getAuthorsForArticle($article['id']);
+            $article['authors'] = $authors;
+            
+            // Добавляем названия категорий и подкатегорий
+            $article['categoryName'] = $article['category_name'] ?? null;
+            $article['categoryId'] = $article['categoryId'] ?? null;
+            $article['subcategoryName'] = $article['subcategory_name'] ?? null;
+            $article['subcategoryId'] = $article['subcategoryId'] ?? null;
+        }
+        
+        // Получаем список подкатегорий
+        $Subcategory = new \application\models\Subcategory();
+        $subcategoriesData = $Subcategory->getList(100);
+        $subcategories = $subcategoriesData['results'];
+        
+        // Получаем список категорий
+        $Category = new \application\models\Category();
+        $categoriesData = $Category->getList(100);
+        $categories = $categoriesData['results'];
+        
+        $this->view->addVar('homepageTitle', $this->homepageTitle);
+        $this->view->addVar('articles', $articles);
+        $this->view->addVar('subcategories', $subcategories);
+        $this->view->addVar('categories', $categories);
         $this->view->render('homepage/index.php');
     }
 }

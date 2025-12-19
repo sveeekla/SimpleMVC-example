@@ -46,7 +46,7 @@ class UserModel extends Model
     {
         $sql = "INSERT INTO $this->tableName (timestamp, login, salt, pass, role, email) VALUES (:timestamp, :login, :salt, :pass, :role, :email)"; 
         $st = $this->pdo->prepare ( $sql );
-        $st->bindValue( ":timestamp", (new \DateTime('NOW'))->format('Y-m-d H:i:s'), \PDO::PARAM_STMT);
+        $st->bindValue( ":timestamp", (new \DateTime('NOW', new \DateTimeZone('Europe/Moscow')))->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $st->bindValue( ":login", $this->login, \PDO::PARAM_STR );
         
         //Хеширование пароля
@@ -82,7 +82,7 @@ class UserModel extends Model
 
         $st = $this->pdo->prepare ( $sql );
         
-        $st->bindValue( ":timestamp", (new \DateTime('NOW'))->format('Y-m-d H:i:s'), \PDO::PARAM_STMT);
+        $st->bindValue( ":timestamp", (new \DateTime('NOW', new \DateTimeZone('Europe/Moscow')))->format('Y-m-d H:i:s'), \PDO::PARAM_STR);
         $st->bindValue( ":login", $this->login, \PDO::PARAM_STR );
         
         

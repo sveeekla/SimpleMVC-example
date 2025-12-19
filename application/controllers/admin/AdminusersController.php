@@ -11,7 +11,7 @@ class AdminusersController extends \ItForFree\SimpleMVC\MVC\Controller
     
     public string $layoutPath = 'admin-main.php';
     
-    protected array $rules = [ //вариант 2:  здесь всё гибче, проще развивать в дальнешем
+    protected array $rules = [
          ['allow' => true, 'roles' => ['admin']],
          ['allow' => false, 'roles' => ['?', '@']],
     ];
@@ -29,7 +29,7 @@ class AdminusersController extends \ItForFree\SimpleMVC\MVC\Controller
             $this->view->addVar('viewAdminusers', $viewAdminusers);
             $this->view->render('user/view-item.php');
         } else { // выводим полный список
-            $sql = "SELECT COUNT(*) as count FROM users WHERE timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR)";
+            $sql = "SELECT COUNT(*) as count FROM users WHERE timestamp >= DATE_SUB(CONVERT_TZ(NOW(), @@session.time_zone, '+03:00'), INTERVAL 1 HOUR)";
             $st = $Adminusers->pdo->query($sql);
             $lastHourCount = $st->fetch()['count'] ?? 0;
 
